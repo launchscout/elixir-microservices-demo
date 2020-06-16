@@ -1,0 +1,9 @@
+<div class="social-log-in">
+  <p>Or log in with</p>
+  <%= link(
+    "Google",
+    to: Routes.auth_path(@conn, :request, "google"),
+    class: "button button-outline"
+  ) %>
+  <%= link "Twitter", to: "#", class: "button button-outline" %>
+</div>
