@@ -40,6 +40,7 @@ defmodule YauthWeb.Router do
     pipe_through [:browser, :guardian, :browser_auth]
 
     resources "/profile", ProfileController, only: [:show], singleton: true
+    resources "/products", ProductController
     delete "/logout", SessionController, :delete
   end
 

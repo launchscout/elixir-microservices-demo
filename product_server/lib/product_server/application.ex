@@ -7,7 +7,8 @@ defmodule ProductServer.Application do
 
   def start(_type, _args) do
     children = [
-      {ProductsServer.Repo, []}
+      {ProductServer.Repo, []},
+      ProductServer.Server
       # Starts a worker by calling: ProductServer.Worker.start_link(arg)
       # {ProductServer.Worker, arg}
     ]

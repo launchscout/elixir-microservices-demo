@@ -1,0 +1,28 @@
+<h1>Show Product</h1>
+
+<ul>
+
+  <li>
+    <strong>Sku:</strong>
+    <%= @product.sku %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @product.name %>
+  </li>
+
+  <li>
+    <strong>Price use:</strong>
+    <%= @product.price_usd %>
+  </li>
+
+  <li>
+    <strong>Main image url:</strong>
+    <%= @product.main_image_url %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.product_path(@conn, :edit, @product) %></span>
+<span><%= link "Back", to: Routes.product_path(@conn, :index) %></span>
