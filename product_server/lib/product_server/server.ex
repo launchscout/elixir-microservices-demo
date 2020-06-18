@@ -42,4 +42,9 @@ defmodule ProductServer.Server do
   def handle_call(:change_product, _from, state) do
     {:reply, Products.change_product(), state}
   end
+
+  @impl true
+  def handle_call({:change_product, product}, _from, state) do
+    {:reply, Products.change_product(product), state}
+  end
 end
