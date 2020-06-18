@@ -7,4 +7,4 @@ config :auth_server, AuthServer.Repo,
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
-config :yauth, :sql_sandbox, true
+config :auth_server, :sql_sandbox, true

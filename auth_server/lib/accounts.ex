@@ -1,45 +1,6 @@
 defmodule AuthServer.Accounts do
-  use GenServer
   alias AuthServer.Repo
   alias __MODULE__.Account
-
-  def start_link(_) do
-    GenServer.start_link(__MODULE__, [], name: {:global, :accounts_server})
-  end
-
-  # Callbacks
-
-  @impl true
-  def init(_) do
-    {:ok, []}
-  end
-
-  @impl true
-  def handle_call({:get_or_register, params}, _from, state) do
-    {:reply, get_or_register(params), state}
-  end
-
-  @impl true
-  def handle_call({:register, params}, _from, state) do
-    {:reply, register(params), state}
-  end
-
-  @impl true
-  def handle_call({:get_account, id}, _from, state) do
-    {:reply, get_account(id), state}
-  end
-
-  @impl true
-  def handle_call({:get_by_email, email}, _from, state) do
-    {:reply, get_by_email(email), state}
-  end
-
-  @impl true
-  def handle_call(:get_account_cset, _from, state) do
-    {:reply, change_account(), state}
-  end
-
-  # Business Logic
 
   def get_or_register(%{info: %{email: email}} = params) do
     if account = get_by_email(email) do
