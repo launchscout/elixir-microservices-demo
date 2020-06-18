@@ -3,7 +3,7 @@ defmodule AuthServer.Application do
 
   def start(_type, _args) do
     children = [
-      AuthServer.Accounts,
+      AuthServer.Server,
       AuthServer.Repo,
       {Task.Supervisor, name: AuthServer.TaskSupervisor}
     ]
