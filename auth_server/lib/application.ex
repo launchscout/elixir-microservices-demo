@@ -9,6 +9,11 @@ defmodule AuthServer.Application do
     ]
 
     opts = [strategy: :one_for_one, name: AuthServer.Supervisor]
-    Supervisor.start_link(children, opts)
+    result = Supervisor.start_link(children, opts)
+
+    Node.connect(:"yauth@127.0.0.1")
+    Node.connect(:"product_server@127.0.0.1")
+
+    result
   end
 end

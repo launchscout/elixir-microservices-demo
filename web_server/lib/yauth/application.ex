@@ -21,7 +21,12 @@ defmodule Yauth.Application do
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Yauth.Supervisor]
-    Supervisor.start_link(children, opts)
+    result = Supervisor.start_link(children, opts)
+
+    Node.connect(:"auth_server@127.0.0.1")
+    Node.connect(:"product_server@127.0.0.1")
+
+    result
   end
 
   # Tell Phoenix to update the endpoint configuration
