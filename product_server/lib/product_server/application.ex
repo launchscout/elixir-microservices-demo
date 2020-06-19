@@ -19,7 +19,7 @@ defmodule ProductServer.Application do
     result = Supervisor.start_link(children, opts)
 
     Node.connect(:"auth_server@127.0.0.1")
-    Node.connect(:"yauth@127.0.0.1")
+    Node.connect(:"web_server@127.0.0.1")
 
     result
   end

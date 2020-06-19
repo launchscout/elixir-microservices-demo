@@ -1,3 +1,3 @@
 use Mix.Config
 
-config :yauth, YauthWeb.Endpoint, server: true
+config :web_server, WebServerWeb.Endpoint, server: true

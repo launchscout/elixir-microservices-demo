@@ -1,9 +1,9 @@
-defmodule Yauth.MixProject do
+defmodule WebServer.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :yauth,
+      app: :web_server,
       version: "0.1.0",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule Yauth.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Yauth.Application, []},
+      mod: {WebServer.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

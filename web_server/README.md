@@ -1,4 +1,4 @@
-# Yauth
+# WebServer
 
 Testing distributed microservices with Elixir
 

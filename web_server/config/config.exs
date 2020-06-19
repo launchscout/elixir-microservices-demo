@@ -8,11 +8,11 @@
 use Mix.Config
 
 # Configures the endpoint
-config :yauth, YauthWeb.Endpoint,
+config :web_server, WebServerWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "xUvVAt5X+0W43gHzW1gTTFGeOVzK3cV/JvYnSEiQ8WTIWTkGBdtoGHxPL02OtAdg",
-  render_errors: [view: YauthWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: Yauth.PubSub,
+  render_errors: [view: WebServerWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: WebServer.PubSub,
   live_view: [signing_salt: "wHDZbHD2"]
 
 # Configures Elixir's Logger
@@ -40,8 +40,8 @@ config :ueberauth, Ueberauth.Strategy.Google.OAuth,
   client_id: System.get_env("GOOGLE_CLIENT_ID"),
   client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
 
-config :yauth, YauthWeb.Authentication,
-  issuer: "yauth",
+config :web_server, WebServerWeb.Authentication,
+  issuer: "web_server",
   secret_key: System.get_env("GUARDIAN_SECRET_KEY")
 
 # Import environment specific config. This must remain at the bottom

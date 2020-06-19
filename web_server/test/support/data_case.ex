@@ -1,4 +1,4 @@
-defmodule Yauth.DataCase do
+defmodule WebServer.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -10,7 +10,7 @@ defmodule Yauth.DataCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use Yauth.DataCase, async: true`, although
+  by setting `use WebServer.DataCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -18,20 +18,20 @@ defmodule Yauth.DataCase do
 
   using do
     quote do
-      alias Yauth.Repo
+      alias WebServer.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Yauth.DataCase
+      import WebServer.DataCase
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Yauth.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(WebServer.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Yauth.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(WebServer.Repo, {:shared, self()})
     end
 
     :ok

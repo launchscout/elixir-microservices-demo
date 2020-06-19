@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>WebServer · Phoenix Framework</title>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </head>
+  <body>
+    <header>
+      <section class="container">
+        <%= if @conn.assigns[:current_account] do %>
+          <nav class="navigation" role="navigation">
+            <section class="container">
+              <a href="#" class="navigation-title" title="WebServer">WebServer</a>
+              <ul class="navigation-list float-right">
+                <li class="navigation-item">
+                  <%= @current_account.email %>
+                </li>
+                <li class="navigation-item">
+                  <%= link(
+                    "Log Out",
+                    to: Routes.session_path(@conn, :delete),
+                    method: :delete
+                  ) %>
+                </li>
+              </ul>
+            </section>
+          </nav>
+        <% end %>
+      </section>
+    </header>
+    <main role="main" class="container">
+      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <%= @inner_content %>
+    </main>
+  </body>
+</html>

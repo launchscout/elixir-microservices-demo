@@ -1,4 +1,4 @@
-defmodule YauthWeb.ConnCase do
+defmodule WebServerWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,7 +11,7 @@ defmodule YauthWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use YauthWeb.ConnCase, async: true`, although
+  by setting `use WebServerWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -22,20 +22,20 @@ defmodule YauthWeb.ConnCase do
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import YauthWeb.ConnCase
+      import WebServerWeb.ConnCase
 
-      alias YauthWeb.Router.Helpers, as: Routes
+      alias WebServerWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
-      @endpoint YauthWeb.Endpoint
+      @endpoint WebServerWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Yauth.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(WebServer.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Yauth.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(WebServer.Repo, {:shared, self()})
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}

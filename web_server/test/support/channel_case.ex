@@ -1,4 +1,4 @@
-defmodule YauthWeb.ChannelCase do
+defmodule WebServerWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -11,7 +11,7 @@ defmodule YauthWeb.ChannelCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use YauthWeb.ChannelCase, async: true`, although
+  by setting `use WebServerWeb.ChannelCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -21,18 +21,18 @@ defmodule YauthWeb.ChannelCase do
     quote do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
-      import YauthWeb.ChannelCase
+      import WebServerWeb.ChannelCase
 
       # The default endpoint for testing
-      @endpoint YauthWeb.Endpoint
+      @endpoint WebServerWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Yauth.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(WebServer.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Yauth.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(WebServer.Repo, {:shared, self()})
     end
 
     :ok
