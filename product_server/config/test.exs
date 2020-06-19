@@ -1,4 +1,4 @@
-import Config
+use Mix.Config
 
 config :product_server, ProductServer.Repo,
   username: "postgres",
