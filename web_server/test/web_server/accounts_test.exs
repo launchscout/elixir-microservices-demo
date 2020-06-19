@@ -1,55 +1,49 @@
 defmodule WebServer.AccountsTest do
   use WebServer.DataCase
+  alias WebServer.{Accounts, LocalCluster}
+  @response {:ok, %{email: "account@email.com"}}
 
-  alias WebServer.Accounts
-  alias Accounts.Account
+  test "spawning tasks on a cluster" do
+    :ok = LocalCluster.start(:web_server)
 
-  test "register for an account with valid information" do
-    pre_count = count_of(Account)
-    params = valid_account_params()
+    [auth_server, product_server] =
+      LocalCluster.start_nodes([:auth_server, :product_server],
+        auth_server: @response,
+        product_server: %{}
+      )
 
-    result = Accounts.register(params)
+    assert Node.ping(auth_server) == :pong
+    assert Node.ping(product_server) == :pong
 
-    assert {:ok, %Account{}} = result
-    assert pre_count + 1 == count_of(Account)
+    caller = self()
+
+    # WebServer.AuthServerFake.start_link(@response) |> IO.inspect()
+
+    # Node.spawn(auth_server, WebServer.AuthServerFake, :start_link, [@response])
+
+    # Node.spawn(auth_server, fn ->
+    #   DynamicSupervisor.start_child(
+    #     WebServer.DynamicSupervisor,
+    #     {WebServer.AuthServerFake, fn -> @response end}
+    #   )
+    # end)
+
+    #
+    # Node.spawn(product_server, fn ->
+    #   send(caller, :from_node_2)
+    # end)
+    #
+    # assert_receive :from_node_1
+    # assert_receive :from_node_2
+    assert {:ok, %{email: "account@email.com"}} = Accounts.register(valid_account_params())
   end
 
-  test "register for an account with an existing email address" do
-    params = valid_account_params()
-    Repo.insert!(%Account{email: params.info.email})
-
-    pre_count = count_of(Account)
-
-    result = Accounts.register(params)
-
-    assert {:error, %Ecto.Changeset{}} = result
-    assert pre_count == count_of(Account)
-  end
-
-  test "register for an account without matching password and confirmation" do
-    pre_count = count_of(Account)
-    %{credentials: credentials} = params = valid_account_params()
-
-    params = %{
-      params
-      | credentials: %{
-          credentials
-          | other: %{
-              password: "superdupersecret",
-              password_confirmation: "somethingelse"
-            }
-        }
-    }
-
-    result = Accounts.register(params)
-
-    assert {:error, %Ecto.Changeset{}} = result
-    assert pre_count == count_of(Account)
-  end
-
-  defp count_of(queryable) do
-    WebServer.Repo.aggregate(queryable, :count, :id)
-  end
+  # test "register for an account with valid information" do
+  #   IO.inspect(:global.registered_names())
+  #   params = valid_account_params()
+  #
+  #   assert {:ok, %{email: "account@email.com"}} = Accounts.register(params)
+  # end
 
   defp valid_account_params do
     %Ueberauth.Auth{
