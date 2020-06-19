@@ -34,6 +34,12 @@ defmodule AuthServer.Accounts do
     Repo.get_by(Account, email: email)
   end
 
+  def update_account(account, attrs) do
+    account
+    |> Account.changeset(attrs)
+    |> Repo.update()
+  end
+
   def change_account(account \\ %Account{}) do
     Account.changeset(account, %{})
   end
