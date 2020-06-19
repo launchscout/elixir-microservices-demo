@@ -1,13 +1,21 @@
-defmodule Yauth.ProductsTest do
-  use Yauth.DataCase
-
-  alias Yauth.Products
+defmodule ProductServer.ProductsTest do
+  use ProductServer.DataCase
+  alias ProductServer.Products
+  alias ProductServer.Products.Product
 
   describe "products" do
-    alias Yauth.Products.Product
-
-    @valid_attrs %{main_image_url: "some main_image_url", name: "some name", price_usd: 42, sku: "some sku"}
-    @update_attrs %{main_image_url: "some updated main_image_url", name: "some updated name", price_usd: 43, sku: "some updated sku"}
+    @valid_attrs %{
+      main_image_url: "some main_image_url",
+      name: "some name",
+      price_usd: 42,
+      sku: "some sku"
+    }
+    @update_attrs %{
+      main_image_url: "some updated main_image_url",
+      name: "some updated name",
+      price_usd: 43,
+      sku: "some updated sku"
+    }
     @invalid_attrs %{main_image_url: nil, name: nil, price_usd: nil, sku: nil}
 
     def product_fixture(attrs \\ %{}) do

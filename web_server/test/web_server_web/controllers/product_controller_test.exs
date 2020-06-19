@@ -3,8 +3,18 @@ defmodule WebServerWeb.ProductControllerTest do
 
   alias WebServer.Products
 
-  @create_attrs %{main_image_url: "some main_image_url", name: "some name", price_usd: 42, sku: "some sku"}
-  @update_attrs %{main_image_url: "some updated main_image_url", name: "some updated name", price_usd: 43, sku: "some updated sku"}
+  @create_attrs %{
+    main_image_url: "some main_image_url",
+    name: "some name",
+    price_usd: 42,
+    sku: "some sku"
+  }
+  @update_attrs %{
+    main_image_url: "some updated main_image_url",
+    name: "some updated name",
+    price_usd: 43,
+    sku: "some updated sku"
+  }
   @invalid_attrs %{main_image_url: nil, name: nil, price_usd: nil, sku: nil}
 
   def fixture(:product) do
@@ -75,6 +85,7 @@ defmodule WebServerWeb.ProductControllerTest do
     test "deletes chosen product", %{conn: conn, product: product} do
       conn = delete(conn, Routes.product_path(conn, :delete, product))
       assert redirected_to(conn) == Routes.product_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.product_path(conn, :show, product))
       end
