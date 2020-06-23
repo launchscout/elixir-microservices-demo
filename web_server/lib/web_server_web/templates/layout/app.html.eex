@@ -11,20 +11,22 @@
   <body>
     <header>
       <section class="container">
-        <%= if @conn.assigns[:current_account] do %>
+        <% account = WebServerWeb.LayoutView.get_account(@conn) %>
+        <%= if account do %>
           <nav class="navigation" role="navigation">
             <section class="container">
-              <a href="#" class="navigation-title" title="WebServer">WebServer</a>
-              <ul class="navigation-list float-right">
+              <ul class="navigation-list">
                 <li class="navigation-item">
-                  <%= @current_account.email %>
+                  <%= account.email %>
                 </li>
                 <li class="navigation-item">
-                  <%= link(
-                    "Log Out",
-                    to: Routes.session_path(@conn, :delete),
-                    method: :delete
-                  ) %>
+                  <%= link("Profile", to: Routes.profile_path(@conn, :show)) %>
+                </li>
+                <li class="navigation-item">
+                  <%= link("Products", to: Routes.product_path(@conn, :index)) %>
+                </li>
+                <li class="navigation-item">
+                  <%= link("Log Out", to: Routes.session_path(@conn, :delete), method: :delete) %>
                 </li>
               </ul>
             </section>
