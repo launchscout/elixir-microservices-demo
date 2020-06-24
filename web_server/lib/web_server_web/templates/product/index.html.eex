@@ -13,7 +13,7 @@
   </thead>
   <tbody>
 <%= for product <- @products do %>
-    <tr>
+    <tr data-selector="product" data-product-sku="<%= product.sku %>">
       <td><%= product.sku %></td>
       <td><%= product.name %></td>
       <td><%= product.price_usd %></td>
