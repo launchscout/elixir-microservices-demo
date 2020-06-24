@@ -5,13 +5,25 @@ defmodule WebServer.AccountsTest do
   @auth_server :"auth_server@127.0.0.1"
 
   describe "using GenServer calls and globally registered name" do
+    test "change_account/1" do
+      AuthServerFake.set_state(%{__struct__: Ecto.Changset})
+      assert %{__struct__: Ecto.Changset} = Accounts.change_account()
+    end
+
     test "register/1" do
+      AuthServerFake.set_state({:ok, @account_attrs})
       assert {:ok, @account_attrs} = Accounts.register(valid_account_params())
     end
   end
 
   describe "using :rpc calls" do
+    test "change_account/1" do
+      :rpc.call(@auth_server, AuthServerRpcFake, :set_state, [%{__struct__: Ecto.Changset}])
+      assert %{__struct__: Ecto.Changset} = Accounts.change_account()
+    end
+
     test "register/1" do
+      :rpc.call(@auth_server, AuthServerRpcFake, :set_state, [{:ok, @account_attrs}])
       assert {:ok, @account_attrs} = AccountsRpc.register(valid_account_params())
     end
   end
