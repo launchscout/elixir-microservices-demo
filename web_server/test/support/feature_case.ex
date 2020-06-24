@@ -11,15 +11,8 @@ defmodule WebServerWeb.FeatureCase do
     end
   end
 
-  setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(WebServer.Repo)
-
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(WebServer.Repo, {:shared, self()})
-    end
-
-    metadata = Phoenix.Ecto.SQL.Sandbox.metadata_for(WebServer.Repo, self())
-    {:ok, session} = Wallaby.start_session(metadata: metadata)
+  setup _tags do
+    {:ok, session} = Wallaby.start_session()
     {:ok, session: session}
   end
 end

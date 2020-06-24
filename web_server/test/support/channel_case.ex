@@ -27,14 +27,4 @@ defmodule WebServerWeb.ChannelCase do
       @endpoint WebServerWeb.Endpoint
     end
   end
-
-  setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(WebServer.Repo)
-
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(WebServer.Repo, {:shared, self()})
-    end
-
-    :ok
-  end
 end
