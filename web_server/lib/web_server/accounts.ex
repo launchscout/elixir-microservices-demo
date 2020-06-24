@@ -16,7 +16,7 @@ defmodule WebServer.Accounts do
     GenServer.call(@accounts_server, {:get_by_email, email})
   end
 
-  def change_account() do
-    GenServer.call(@accounts_server, :get_account_cset)
+  def change_account do
+    GenServer.call(@accounts_server, :change_account)
   end
 end

@@ -20,7 +20,7 @@ defmodule WebServer.Products do
     GenServer.call(@products_server, {:delete_product, product})
   end
 
-  def change_product() do
+  def change_product do
     GenServer.call(@products_server, :change_product)
   end
 

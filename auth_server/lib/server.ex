@@ -34,7 +34,7 @@ defmodule AuthServer.Server do
   end
 
   @impl true
-  def handle_call(:get_account_cset, _from, state) do
+  def handle_call(:change_account, _from, state) do
     {:reply, Accounts.change_account(), state}
   end
 end
