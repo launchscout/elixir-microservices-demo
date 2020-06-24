@@ -10,6 +10,16 @@ defmodule WebServer.ProductServerRpcFake do
     GenServer.cast(@server_name, {:set_state, state})
   end
 
+  # RPC method calls
+
+  def list_products, do: GenServer.call(@server_name, :get_state)
+  def get_product!(_id), do: GenServer.call(@server_name, :get_state)
+  def create_product(_params), do: GenServer.call(@server_name, :get_state)
+  def update_product(_product, _params), do: GenServer.call(@server_name, :get_state)
+  def delete_product(_product), do: GenServer.call(@server_name, :get_state)
+  def change_product, do: GenServer.call(@server_name, :get_state)
+  def change_product(_product), do: GenServer.call(@server_name, :get_state)
+
   # Callbacks
 
   @impl true
