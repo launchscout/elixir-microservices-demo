@@ -12,10 +12,10 @@ defmodule WebServer.AuthServerRpcFake do
 
   # RPC method calls
 
-  def get_or_register(%Ueberauth.Auth{} = params), do: GenServer.call(@server_name, :get_state)
-  def register(%Ueberauth.Auth{} = params), do: GenServer.call(@server_name, :get_state)
-  def get_account(id), do: GenServer.call(@server_name, :get_state)
-  def get_by_email(email), do: GenServer.call(@server_name, :get_state)
+  def get_or_register(%Ueberauth.Auth{}), do: GenServer.call(@server_name, :get_state)
+  def register(%Ueberauth.Auth{}), do: GenServer.call(@server_name, :get_state)
+  def get_account(_id), do: GenServer.call(@server_name, :get_state)
+  def get_by_email(_email), do: GenServer.call(@server_name, :get_state)
   def change_account, do: GenServer.call(@server_name, :get_state)
 
   # Callbacks
