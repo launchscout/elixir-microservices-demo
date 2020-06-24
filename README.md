@@ -16,11 +16,32 @@ In the web_server directory only:
 cd assets && npm install
 ```
 
-Finally, add this to `web_server/config/dev.secret.exs`:
-```
+Finally, create this file `web_server/config/dev.secret.exs` with this content:
+```elixir
+use Mix.Config
+
 config :web_server, WebServerWeb.Authentication,
   issuer: "web_server",
   secret_key: "replace-me-with-a-random-string"
+
+config :web_server, WebServerWeb.Endpoint, server: true
+```
+And create this file `web_server/config/prod.secret.exs` with this content:
+```elixir
+use Mix.Config
+
+config :web_server, WebServerWeb.Authentication,
+  issuer: "web_server",
+  secret_key: "replace-me-with-a-random-string"
+
+config :web_server, WebServerWeb.Endpoint,
+  http: [
+    port: String.to_integer(System.get_env("PORT") || "4000"),
+    transport_options: [socket_opts: [:inet6]]
+  ],
+  secret_key_base: "replace-me-with-a-random-string"
+
+config :web_server, WebServerWeb.Endpoint, server: true
 ```
 
 ## Demo
