@@ -3,14 +3,14 @@ defmodule WebServerWeb.Authentication do
   Implementation module for Guardian and functions for authentication.
   """
   use Guardian, otp_app: :web_server
-  alias WebServer.Accounts
+  @accounts_context Application.get_env(:web_server, :accounts_context, WebServer.Accounts)
 
   def subject_for_token(resource, _claims) do
     {:ok, to_string(resource.id)}
   end
 
   def resource_from_claims(%{"sub" => id}) do
-    case Accounts.get_account(id) do
+    case @accounts_context.get_account(id) do
       nil -> {:error, :resource_not_found}
       account -> {:ok, account}
     end

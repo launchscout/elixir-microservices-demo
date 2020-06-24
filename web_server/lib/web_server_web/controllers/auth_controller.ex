@@ -1,11 +1,11 @@
 defmodule WebServerWeb.AuthController do
   use WebServerWeb, :controller
   plug Ueberauth
-  alias WebServer.Accounts
   alias WebServerWeb.Authentication
+  @accounts_context Application.get_env(:web_server, :accounts_context, WebServer.Accounts)
 
   def callback(%{assigns: %{ueberauth_auth: auth_data}} = conn, _params) do
-    case Accounts.get_or_register(auth_data) do
+    case @accounts_context.get_or_register(auth_data) do
       {:ok, account} ->
         conn
         |> Authentication.log_in(account)

@@ -1,9 +1,13 @@
 defmodule WebServer.AuthServerFake do
   use GenServer
-  @response {:ok, %{email: "account@email.com"}}
+  @server_name {:global, :accounts_server}
 
   def start_link(state) do
-    GenServer.start_link(__MODULE__, state, name: {:global, :accounts_server})
+    GenServer.start_link(__MODULE__, state, name: @server_name)
+  end
+
+  def set_state(state) do
+    GenServer.cast(@server_name, {:set_state, state})
   end
 
   # Callbacks
@@ -16,5 +20,10 @@ defmodule WebServer.AuthServerFake do
   @impl true
   def handle_call(_, _from, state) do
     {:reply, state, state}
+  end
+
+  @impl true
+  def handle_cast({:set_state, new_state}, _state) do
+    {:noreply, new_state}
   end
 end

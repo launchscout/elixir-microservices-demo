@@ -1,20 +1,20 @@
 defmodule WebServerWeb.ProductController do
   use WebServerWeb, :controller
 
-  alias WebServer.Products
+  @products_context Application.get_env(:web_server, :products_context, WebServer.Products)
 
   def index(conn, _params) do
-    products = Products.list_products()
+    products = @products_context.list_products()
     render(conn, "index.html", products: products)
   end
 
   def new(conn, _params) do
-    changeset = Products.change_product()
+    changeset = @products_context.change_product()
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"product" => product_params}) do
-    case Products.create_product(product_params) do
+    case @products_context.create_product(product_params) do
       {:ok, product} ->
         conn
         |> put_flash(:info, "Product created successfully.")
@@ -26,20 +26,20 @@ defmodule WebServerWeb.ProductController do
   end
 
   def show(conn, %{"id" => id}) do
-    product = Products.get_product!(id)
+    product = @products_context.get_product!(id)
     render(conn, "show.html", product: product)
   end
 
   def edit(conn, %{"id" => id}) do
-    product = Products.get_product!(id)
-    changeset = Products.change_product(product)
+    product = @products_context.get_product!(id)
+    changeset = @products_context.change_product(product)
     render(conn, "edit.html", product: product, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "product" => product_params}) do
-    product = Products.get_product!(id)
+    product = @products_context.get_product!(id)
 
-    case Products.update_product(product, product_params) do
+    case @products_context.update_product(product, product_params) do
       {:ok, product} ->
         conn
         |> put_flash(:info, "Product updated successfully.")
@@ -51,8 +51,8 @@ defmodule WebServerWeb.ProductController do
   end
 
   def delete(conn, %{"id" => id}) do
-    product = Products.get_product!(id)
-    {:ok, _product} = Products.delete_product(product)
+    product = @products_context.get_product!(id)
+    {:ok, _product} = @products_context.delete_product(product)
 
     conn
     |> put_flash(:info, "Product deleted successfully.")

@@ -1,6 +1,6 @@
-defmodule WebServer.ProductServerFake do
+defmodule WebServer.ProductServerRpcFake do
   use GenServer
-  @server_name {:global, :products_server}
+  @server_name :products_rpc_server
 
   def start_link(state) do
     GenServer.start_link(__MODULE__, state, name: @server_name)

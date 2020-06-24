@@ -113,18 +113,22 @@ defmodule WebServer.LocalCluster do
       rpc.(Application, :ensure_all_started, [app_name])
     end
 
-    Enum.each(nodes, fn node ->
-      if node == :"auth_server@127.0.0.1",
-        do:
-          :rpc.call(node, WebServer.AuthServerFake, :start_link, [
-            Keyword.get(options, :auth_server)
-          ]),
-        else:
-          :rpc.call(node, WebServer.ProductServerFake, :start_link, [
-            Keyword.get(options, :product_server)
-          ])
-    end)
+    Enum.each(nodes, &start_genserver_fakes(&1, options))
 
     nodes
   end
+
+  defp start_genserver_fakes(:"auth_server@127.0.0.1" = node, options) do
+    initial = Keyword.get(options, :auth_server)
+    :rpc.call(node, WebServer.AuthServerFake, :start_link, [initial])
+    :rpc.call(node, WebServer.AuthServerRpcFake, :start_link, [initial])
+  end
+
+  defp start_genserver_fakes(:"product_server@127.0.0.1" = node, options) do
+    initial = Keyword.get(options, :product_server)
+    :rpc.call(node, WebServer.ProductServerFake, :start_link, [initial])
+    :rpc.call(node, WebServer.ProductServerRpcFake, :start_link, [initial])
+  end
+
+  defp start_genserver_fakes(_, _), do: nil
 end

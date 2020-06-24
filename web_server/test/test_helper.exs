@@ -1,9 +1,5 @@
 :ok = WebServer.LocalCluster.start(:web_server)
-
-WebServer.LocalCluster.start_nodes([:auth_server, :product_server],
-  auth_server: {:ok, %{email: "account@email.com"}},
-  product_server: %{}
-)
+WebServer.LocalCluster.start_nodes([:auth_server, :product_server])
 
 ExUnit.start()
 Ecto.Adapters.SQL.Sandbox.mode(WebServer.Repo, :manual)
