@@ -34,6 +34,7 @@ defmodule WebServer.MixProject do
   defp deps do
     [
       {:global_flags, "~> 1.0", only: :test},
+      {:hound, "~> 1.0", only: :test},
       {:phoenix, "~> 1.5.1"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
@@ -46,7 +47,6 @@ defmodule WebServer.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:wallaby, "~> 0.25.0", [runtime: false, only: :test]},
       {:ueberauth, "~> 0.6.3"},
       {:ueberauth_identity, "~> 0.3.0"},
       {:ueberauth_google, "~> 0.8"},
