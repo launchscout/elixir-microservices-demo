@@ -3,14 +3,14 @@
     <h1>Log In</h1>
     <%= form_for @changeset, @action, [as: :account], fn f -> %>
       <%= label f, :email, "Email address" %>
-      <%= email_input f, :email %>
+      <%= email_input f, :email, class: "qa_session_email" %>
       <%= error_tag f, :email %>
 
       <%= label f, :password, "Password" %>
-      <%= password_input f, :password %>
+      <%= password_input f, :password, class: "qa_session_password" %>
       <%= error_tag f, :password %>
 
-      <%= submit "Log In", class: "button button-primary" %>
+      <%= submit "Log In", class: "button button-primary qa_session_submit" %>
     <% end %>
   </div>
 </div>
@@ -18,7 +18,7 @@
   <div class="column column-50 column-offset-25">
     <p>
       Need an accout?
-      <%= link("Register here", to: Routes.registration_path(@conn, :new)) %>
+      <%= link("Register here", to: Routes.registration_path(@conn, :new), class: "qa_register") %>
     </p>
   </div>
 </div>

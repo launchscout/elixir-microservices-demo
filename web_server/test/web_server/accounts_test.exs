@@ -19,7 +19,7 @@ defmodule WebServer.AccountsTest do
   describe "using :rpc calls" do
     test "change_account/1" do
       :rpc.call(@auth_server, AuthServerRpcFake, :set_state, [%{__struct__: Ecto.Changset}])
-      assert %{__struct__: Ecto.Changset} = Accounts.change_account()
+      assert %{__struct__: Ecto.Changset} = AccountsRpc.change_account()
     end
 
     test "register/1" do

@@ -5,7 +5,7 @@ defmodule WebServer.ProductsTest do
   @product_server :"product_server@127.0.0.1"
 
   setup do
-    {:ok, products: Enum.map(1..3, &Fixtures.product/1)}
+    {:ok, products: Fixtures.products(3)}
   end
 
   describe "using GenServer calls and globally registered name" do
@@ -23,7 +23,8 @@ defmodule WebServer.ProductsTest do
   describe "using :rpc calls" do
     test "create_product/1" do
       :rpc.call(@product_server, ProductServerRpcFake, :set_state, [{:ok, @product_attrs}])
-      assert {:ok, @product_attrs} = Products.create_product(@product_attrs)
+
+      assert {:ok, @product_attrs} = ProductsRpc.create_product(@product_attrs)
     end
 
     test "list_products/1", %{products: products} do

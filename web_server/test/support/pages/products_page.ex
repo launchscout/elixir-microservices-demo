@@ -1,19 +1,16 @@
 defmodule WebServerWeb.ProductsPage do
   @moduledoc false
+  use WebServer.Page
 
-  use Wallaby.DSL
-
-  import Wallaby.Query, only: [css: 1, css: 2]
-
-  def visit_page(session) do
-    visit(session, "/products")
+  def visit_page() do
+    navigate_to("/products")
   end
 
-  def product(%{sku: product_sku}) do
-    css("[data-product-sku='#{product_sku}']")
+  def has_product?(%{sku: product_sku}) do
+    has_css?("[data-product-sku='#{product_sku}']")
   end
 
-  def products(count) do
-    css("[data-selector='product']", count: count)
+  def has_products_count?(count) do
+    find_all_elements(:css, "[data-selector='product']") |> length() |> Kernel.==(count)
   end
 end

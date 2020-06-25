@@ -3,18 +3,18 @@
     <h1>Register</h1>
     <%= form_for @changeset, @action, [as: :account], fn f -> %>
       <%= label f, :email, "Email address" %>
-      <%= email_input f, :email %>
+      <%= email_input f, :email, class: "qa_email" %>
       <%= error_tag f, :email %>
 
       <%= label f, :password, "Password" %>
-      <%= password_input f, :password %>
+      <%= password_input f, :password, class: "qa_password" %>
       <%= error_tag f, :password %>
 
       <%= label f, :password_confirmation, "Password Confirmation" %>
-      <%= password_input f, :password_confirmation %>
+      <%= password_input f, :password_confirmation, class: "qa_password_confirmation" %>
       <%= error_tag f, :password_confirmation %>
 
-      <%= submit "Register", class: "button button-primary" %>
+      <%= submit "Register", class: "button button-primary qa_submit" %>
     <% end %>
   </div>
 </div>

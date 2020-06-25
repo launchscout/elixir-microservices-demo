@@ -5,9 +5,25 @@ defmodule WebServerWeb.FeatureCase do
 
   use ExUnit.CaseTemplate
 
+  alias WebServer.{AuthServerFake, Fixtures}
+  alias WebServer.Session.NewPage
+
   using do
     quote do
+      @account_attrs Fixtures.account()
       use Hound.Helpers
+
+      def sign_in_account(account) do
+        AuthServerFake.set_state(%Ecto.Changeset{data: @account_attrs})
+        NewPage.visit()
+        NewPage.enter_credentials(account.email, account.password)
+        AuthServerFake.set_state(@account_attrs)
+        NewPage.submit()
+      end
+
+      def sign_out_account do
+        NewPage.sign_out()
+      end
     end
   end
 

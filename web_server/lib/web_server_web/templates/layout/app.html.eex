@@ -26,7 +26,7 @@
                   <%= link("Products", to: Routes.product_path(@conn, :index)) %>
                 </li>
                 <li class="navigation-item">
-                  <%= link("Log Out", to: Routes.session_path(@conn, :delete), method: :delete) %>
+                  <%= link("Log Out", to: Routes.session_path(@conn, :delete), method: :delete, class: "qa_sign_out") %>
                 </li>
               </ul>
             </section>
