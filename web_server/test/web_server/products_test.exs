@@ -24,12 +24,13 @@ defmodule WebServer.ProductsTest do
     test "create_product/1" do
       :rpc.call(@product_server, ProductServerRpcFake, :set_state, [{:ok, @product_attrs}])
 
-      assert {:ok, @product_attrs} = ProductsRpc.create_product(@product_attrs)
+      assert {:ok, @product_attrs} =
+               ProductsRpc.create_product(@product_attrs, ProductServerRpcFake)
     end
 
     test "list_products/1", %{products: products} do
       :rpc.call(@product_server, ProductServerRpcFake, :set_state, [products])
-      assert products == ProductsRpc.list_products()
+      assert products == ProductsRpc.list_products(ProductServerRpcFake)
     end
   end
 end

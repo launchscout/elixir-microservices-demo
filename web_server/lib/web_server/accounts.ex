@@ -1,22 +1,22 @@
 defmodule WebServer.Accounts do
   @accounts_server {:global, :accounts_server}
-  def get_or_register(%Ueberauth.Auth{} = params) do
-    GenServer.call(@accounts_server, {:get_or_register, params})
+  def get_or_register(%Ueberauth.Auth{} = params, accounts_server \\ @accounts_server) do
+    GenServer.call(accounts_server, {:get_or_register, params})
   end
 
-  def register(%Ueberauth.Auth{} = params) do
-    GenServer.call(@accounts_server, {:register, params})
+  def register(%Ueberauth.Auth{} = params, accounts_server \\ @accounts_server) do
+    GenServer.call(accounts_server, {:register, params})
   end
 
-  def get_account(id) do
-    GenServer.call(@accounts_server, {:get_account, id})
+  def get_account(id, accounts_server \\ @accounts_server) do
+    GenServer.call(accounts_server, {:get_account, id})
   end
 
-  def get_by_email(email) do
-    GenServer.call(@accounts_server, {:get_by_email, email})
+  def get_by_email(email, accounts_server \\ @accounts_server) do
+    GenServer.call(accounts_server, {:get_by_email, email})
   end
 
-  def change_account do
-    GenServer.call(@accounts_server, :change_account)
+  def change_account(accounts_server \\ @accounts_server) do
+    GenServer.call(accounts_server, :change_account)
   end
 end

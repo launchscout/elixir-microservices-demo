@@ -9,7 +9,4 @@ config :web_server, WebServerWeb.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-config :web_server, :accounts_server, WebServer.AuthServerRpcFake
-config :web_server, :products_server, WebServer.ProductServerRpcFake
-
 config :hound, driver: "chrome_driver"

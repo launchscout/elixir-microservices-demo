@@ -1,30 +1,32 @@
 defmodule WebServer.ProductsRpc do
-  @products_context Application.get_env(:web_server, :products_server, ProductServer.Products)
-  def list_products do
-    :rpc.call(:"product_server@127.0.0.1", @products_context, :list_products, [])
+  @products_context ProductServer.Products
+  def list_products(products_context \\ @products_context) do
+    :rpc.call(:"product_server@127.0.0.1", products_context, :list_products, [])
   end
 
-  def get_product!(id) do
-    :rpc.call(:"product_server@127.0.0.1", @products_context, :get_product!, [id])
+  def get_product!(id, products_context \\ @products_context) do
+    :rpc.call(:"product_server@127.0.0.1", products_context, :get_product!, [id])
   end
 
-  def create_product(params) do
-    :rpc.call(:"product_server@127.0.0.1", @products_context, :create_product, [params])
+  def create_product(params, products_context \\ @products_context) do
+    :rpc.call(:"product_server@127.0.0.1", products_context, :create_product, [params])
   end
 
-  def update_product(product, params) do
-    :rpc.call(:"product_server@127.0.0.1", @products_context, :update_product, [product, params])
+  def update_product(product, params, products_context \\ @products_context) do
+    :rpc.call(:"product_server@127.0.0.1", products_context, :update_product, [product, params])
   end
 
-  def delete_product(product) do
-    :rpc.call(:"product_server@127.0.0.1", @products_context, :delete_product, [product])
+  def delete_product(product, products_context \\ @products_context) do
+    :rpc.call(:"product_server@127.0.0.1", products_context, :delete_product, [product])
   end
 
-  def change_product do
-    :rpc.call(:"product_server@127.0.0.1", @products_context, :change_product, [])
+  def change_product, do: change_product(@products_context)
+
+  def change_product(products_context) when is_atom(products_context) do
+    :rpc.call(:"product_server@127.0.0.1", products_context, :change_product, [])
   end
 
-  def change_product(product) do
-    :rpc.call(:"product_server@127.0.0.1", @products_context, :change_product, [product])
+  def change_product(product, products_context \\ @products_context) do
+    :rpc.call(:"product_server@127.0.0.1", products_context, :change_product, [product])
   end
 end
