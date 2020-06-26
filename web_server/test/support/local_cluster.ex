@@ -10,6 +10,9 @@ defmodule WebServer.LocalCluster do
   @doc """
   Starts the current node as a distributed node.
   """
+  alias WebServer.{AuthServerFake, AuthServerRpcFake, ProductServerFake, ProductServerRpcFake}
+  alias WebServerWeb.Endpoint
+
   @spec start :: :ok
   def start, do: start(:manager)
 
@@ -105,9 +108,13 @@ defmodule WebServer.LocalCluster do
     rpc.(Logger, :configure, level: Logger.level())
     rpc.(Mix, :env, [Mix.env()])
 
+    current_application = Application.get_application(__MODULE__)
+
     for {app_name, _, _} <- Application.loaded_applications() do
       for {key, val} <- Application.get_all_env(app_name) do
-        rpc.(Application, :put_env, [app_name, key, val])
+        if setting_port?(app_name == current_application, key, val),
+          do: set_endpoint_config_with_incremented_ports(app_name, nodes, key, val),
+          else: rpc.(Application, :put_env, [app_name, key, val])
       end
 
       rpc.(Application, :ensure_all_started, [app_name])
@@ -118,16 +125,40 @@ defmodule WebServer.LocalCluster do
     nodes
   end
 
+  defp set_endpoint_config_with_incremented_ports(app_name, nodes, key, val) do
+    nodes
+    |> Enum.with_index(1)
+    |> Enum.each(fn {node, index} ->
+      http_setting = Keyword.get(val, :http)
+
+      {_original_port, updated_http_setting} =
+        Keyword.get_and_update(http_setting, :port, fn original_port ->
+          {original_port, original_port + index}
+        end)
+
+      updated_val = Keyword.merge(val, http: updated_http_setting)
+
+      :rpc.call(node, Application, :put_env, [app_name, key, updated_val])
+    end)
+  end
+
+  defp setting_port?(true, Endpoint, val) do
+    http_setting = Keyword.get(val, :http)
+    Keyword.get(http_setting, :port)
+  end
+
+  defp setting_port?(_, _, _), do: false
+
   defp start_genserver_fakes(:"auth_server@127.0.0.1" = node, options) do
     initial = Keyword.get(options, :auth_server)
-    :rpc.call(node, WebServer.AuthServerFake, :start_link, [initial])
-    :rpc.call(node, WebServer.AuthServerRpcFake, :start_link, [initial])
+    :rpc.call(node, AuthServerFake, :start_link, [initial])
+    :rpc.call(node, AuthServerRpcFake, :start_link, [initial])
   end
 
   defp start_genserver_fakes(:"product_server@127.0.0.1" = node, options) do
     initial = Keyword.get(options, :product_server)
-    :rpc.call(node, WebServer.ProductServerFake, :start_link, [initial])
-    :rpc.call(node, WebServer.ProductServerRpcFake, :start_link, [initial])
+    :rpc.call(node, ProductServerFake, :start_link, [initial])
+    :rpc.call(node, ProductServerRpcFake, :start_link, [initial])
   end
 
   defp start_genserver_fakes(_, _), do: nil
