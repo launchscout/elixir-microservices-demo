@@ -1,4 +1,4 @@
-defmodule WebServer.Session.RegistrationPage do
+defmodule WebServer.RegistrationPage do
   use WebServer.Page
 
   @page_path "/registration"

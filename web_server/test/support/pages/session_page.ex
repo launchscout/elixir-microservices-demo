@@ -1,4 +1,4 @@
-defmodule WebServer.Session.NewPage do
+defmodule WebServer.SessionPage do
   use WebServer.Page
 
   @page_path "/login"

@@ -6,7 +6,7 @@ defmodule WebServerWeb.FeatureCase do
   use ExUnit.CaseTemplate
 
   alias WebServer.{AuthServerFake, Fixtures}
-  alias WebServer.Session.NewPage
+  alias WebServer.SessionPage
 
   using do
     quote do
@@ -15,14 +15,14 @@ defmodule WebServerWeb.FeatureCase do
 
       def sign_in_account(account) do
         AuthServerFake.set_state(%Ecto.Changeset{data: @account_attrs})
-        NewPage.visit()
-        NewPage.enter_credentials(account.email, account.password)
+        SessionPage.visit()
+        SessionPage.enter_credentials(account.email, account.password)
         AuthServerFake.set_state(@account_attrs)
-        NewPage.submit()
+        SessionPage.submit()
       end
 
       def sign_out_account do
-        NewPage.sign_out()
+        SessionPage.sign_out()
       end
     end
   end
